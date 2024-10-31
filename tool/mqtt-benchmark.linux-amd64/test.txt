@@ -1,0 +1,1 @@
+./mqtt-benchmark --broker tcp://localhost:6883 --count 10000 --size 100 --clients 10 --qos 1 
