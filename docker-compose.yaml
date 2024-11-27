@@ -6,10 +6,9 @@ services:
     restart: always
     ports:
       - "1883:1883"
-      - "8060:8060"
-      - "10022:10022"
     networks:
       - mqtt-stress
+    mem_limit: 2048m 
       
   mqtt-stress-mochi:
     image: "mochimqtt/server:latest"
@@ -17,12 +16,11 @@ services:
     restart: always
     ports:
       - "2883:1883"
-      - "1882:1882"
-      - "1880:1880"
     volumes:
       - ./mochi-config.yaml:/config.yaml
     networks:
       - mqtt-stress
+    mem_limit: 2048m  
 
   mqtt-stress-emqx:
     image: "emqx:latest"
@@ -30,12 +28,9 @@ services:
     restart: always
     ports:
       - "3883:1883"
-      - "8083:8083"
-      - "8084:8084"      
-      - "8883:8883"      
-      - "18083:18083"
     networks:
       - mqtt-stress
+    mem_limit: 2048m  
       
   mqtt-stress-mosquitto:
     image: "eclipse-mosquitto:latest"
@@ -46,35 +41,49 @@ services:
     volumes:
       - ./mosquitto.conf:/mosquitto/config/mosquitto.conf    
     networks:
-      - mqtt-stress      
+      - mqtt-stress
+    mem_limit: 2048m      
 
-  mqtt-stress-hivemq:
-    image: "hivemq/hivemq4:latest"
-    container_name: mqtt-stress-hivemq
-    restart: always
-    ports:
-      - "5883:1883"
-      - "8080:8080"
-    networks:
-      - mqtt-stress      
+#  mqtt-stress-hivemq:
+#    image: "hivemq/hivemq4:latest"
+#    container_name: mqtt-stress-hivemq
+#    restart: always
+#    ports:
+#      - "5883:1883"
+#    networks:
+#      - mqtt-stress
+#    mem_limit: 2048m
 
-  mqtt-stress-rmqtt:
-    image: "rmqtt/rmqtt:latest"
-    container_name: mqtt-stress-rmqtt
-    restart: always
-    ports:
-      - "6883:1883"
-    networks:
-      - mqtt-stress          
+#  mqtt-stress-rmqtt:
+#    image: "rmqtt/rmqtt:latest"
+#    container_name: mqtt-stress-rmqtt
+#    restart: always
+#    ports:
+#      - "6883:1883"
+#    networks:
+#      - mqtt-stress
+#    mem_limit: 2048m
     
   mqtt-stress-bifromq:
-    mage: "bifromq/bifromq:latest"
+    image: "bifromq/bifromq:latest"
     container_name: mqtt-stress-bifromq
     restart: always
     ports:
       - "7883:1883"
     networks:
-      - mqtt-stress    
+      - mqtt-stress  
+    mem_limit: 2048m
+    
+  mqtt-stress-vxmq-snapshot:
+    image: "jpforevers/vxmq:999-SNAPSHOT"
+    container_name: mqtt-stress-vxmq-snapshot
+    restart: always
+    ports:
+      - "8883:1883"
+    networks:
+      - mqtt-stress
+    mem_limit: 2048m   
+        
 networks:
   mqtt-stress:
 
